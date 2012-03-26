@@ -1,9 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <algorithm>
-
-using namespace std;
+#include "Chemistry.h"
 
 int main()
 {
@@ -17,6 +12,7 @@ int main()
 	
 	cout << "> ";
 	cin >> choice;
+	
 	
 	return 0;
 }
