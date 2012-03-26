@@ -16,7 +16,7 @@ int main()
 		cout << "> ";
 		cin >> choice;
 
-		Molecule c_molecule;
+		Compound c_molecule;
 	
 		if((choice=='a')||(choice=='A'))
 			c_molecule.findMass();
