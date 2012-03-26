@@ -1,6 +1,19 @@
+/* ------ CHEMISTRY ------ */
+/*     By Arun Drelich     */
+
+/* This software is provided for use free of charge and without any warranty whatsoever        */
+/* It may not be sold for money without the consent of the author                              */
+/* Please give credit where it is due- Even though it's free please do not remove this notice  */
+
 #include "Chemistry.h"
 
-
+Compound::Compound(string s_molecule)
+{
+	raw_molecule=s_molecule;
+	parseString();
+	
+	f_mass=findMass();
+}
 int main()
 {
 	char choice;
@@ -31,7 +44,7 @@ int main()
 			Compound c_molecule (formula);
 			
 			if ((choice=='a')||(choice=='A'))
-				c_molecule.findMass();
+				cout << "The molar mass of " << formula << " is: " << c_molecule.findMass();
 			else if ((choice=='b')||(choice=='B'))
 				c_molecule.percentComp();
 			else {
