@@ -1,3 +1,10 @@
+/* ------ CHEMISTRY ------ */
+/*     By Arun Drelich     */
+
+/* This software is provided for use free of charge and without any warranty whatsoever        */
+/* It may not be sold for money without the consent of the author                              */
+/* Please give credit where it is due- Even though it's free please do not remove this notice  */
+
 #ifndef _CHEMISTRY_H_
 	#define _CHEMISTRY_H_
 
@@ -17,11 +24,12 @@ class Compound {
 	vector<int> v_Quantities; // quantity of each element in the compound, in order
 	float f_mass; // Mass of compound
 	vector<float> v_Composition; // container of each element's percent comp
+	string raw_molecule;
 	
 	public:
 	Molecule(string s_molecule);
 	void parseString();
-	void findMass();
+	float findMass();
 	void percentComp();
 	float percentYield();
 };
