@@ -5,7 +5,7 @@ int main()
 	char choice;
 	char again='y';
 	
-	while((again!='no')||(again!='n'))
+	while(again!='n')
 	{
 		cout << "Welcome to Chemistry!" << endl;
 		cout << "---------------------" << endl;
@@ -29,7 +29,7 @@ int main()
 			cin.get();
 		}
 
-		cout << "Again? (yes/no)" << endl;
+		cout << "Again? (y/n)" << endl;
 		cin >> again;
 	}
 	
