@@ -7,15 +7,30 @@
 
 #include "Chemistry.h"
 
-Compound::Compound(string s_molecule)
-{
+Compound::Compound(string s_molecule) {
 	raw_molecule=s_molecule;
 	parseString();
 	
 	f_mass=findMass();
 }
-int main()
-{
+void Compound::parseString() {
+	// islower() and isupper()
+	string temp;
+	for (int i=0; i<=raw_molecule.size(); i++) {
+		if ((isupper(raw_molecule[i]))&&(i==0))
+			temp=raw_molecule[i];
+		else if(isupper(raw_molecule[i])&&(i!=0)) {
+			// New element- so, convert to atomic # then store in v_Elements			
+		}
+	}
+}
+void Compound::percentComp() {
+}
+float Compound::findMass() {
+}
+float percentYield() {
+}
+int main() {
 	char choice;
 	char again='y';
 	string formula;
