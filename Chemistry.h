@@ -19,6 +19,26 @@
 
 using namespace std;
 
+
+class Compound {
+	
+	vector<int> v_Elements; // container of each element, which will use atomic number instead of name
+	int i_elements; // number of elements in the molecule
+	vector<int> v_Quantities; // quantity of each element in the compound, in order
+	float f_mass; // Mass of compound
+	vector<float> v_Composition; // container of each element's percent comp
+	string raw_molecule;
+	
+public:
+	Molecule(string s_molecule);
+	void parseString();
+	float findMass();
+	void percentComp();
+	float percentYield();
+};
+
+
+// Database of element info:
 unordered_map<string, int> ATOMIC_NUMBER;
 ATOMIC_NUMBER["H"]=1;
 ATOMIC_NUMBER["Li"]=3;
@@ -76,22 +96,5 @@ const float ATOMIC_MASS[48]={0.0, 1.008, 0.0, 6.941, 9.012, 10.81, 12.01, 14.01,
 	0.0, 0.0, 0.0, 0.0, 0.0, 190.2, 0.0, 195.1, 197.0, 200.6, 0, 207.2}; 
 	// 0.0 means an unused (for the purposes of the program) element. Have the program check mass!=0.0 before proceeding
 	// to ensure no errors were made.
-
-class Compound {
-
-	vector<int> v_Elements; // container of each element, which will use atomic number instead of name
-	int i_elements; // number of elements in the molecule
-	vector<int> v_Quantities; // quantity of each element in the compound, in order
-	float f_mass; // Mass of compound
-	vector<float> v_Composition; // container of each element's percent comp
-	string raw_molecule;
-	
-	public:
-	Molecule(string s_molecule);
-	void parseString();
-	float findMass();
-	void percentComp();
-	float percentYield();
-};
 
 #endif
