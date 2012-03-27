@@ -14,14 +14,27 @@ Compound::Compound(string s_molecule) {
 	f_mass=findMass();
 }
 void Compound::parseString() {
-	// islower() and isupper()
+	unordered_map<string,int>::const_iterator search;
 	string temp;
+	
 	for (int i=0; i<=raw_molecule.size(); i++) {
 		if ((isupper(raw_molecule[i]))&&(i==0))
 			temp=raw_molecule[i];
 		else if(isupper(raw_molecule[i])&&(i!=0)) {
-			// New element- so, convert to atomic # then store in v_Elements			
+			// New element- so, convert temp to atomic # then store in v_Elements
+			search=ATOMIC_NUMBER.find (temp);
+			if (search==ATOMIC_NUMBER.end()) 
+				// There is a problem
+			else
+				v_Elements.push_back(search->second); // Add atomic number into vector
+			
+			temp=raw_molecule[i]; // Replace temp with the new element
+
 		}
+		else if(islower(raw_molecule[i]))
+			temp+=raw_molecule[i]; // E.g. N+=a which means temp=="Na"
+		else
+			continue; // It is a number/parentheses or something
 	}
 }
 void Compound::percentComp() {
