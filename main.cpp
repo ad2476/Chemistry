@@ -34,6 +34,7 @@ int main() {
 	char choice;
 	char again='y';
 	string formula;
+	locale loc;
 	
 	while(again!='n')
 	{
@@ -46,8 +47,10 @@ int main() {
 	
 		cout << "> ";
 		cin >> choice;
+		
+		tolower(choice, loc);
 	
-		if ((choice=='c')||(choice=='C')) {
+		if (choice=='c') {
 			// Bring up different screen
 		}
 		else {
@@ -58,12 +61,13 @@ int main() {
 			
 			Compound c_molecule (formula);
 			
-			if ((choice=='a')||(choice=='A'))
+			if (choice=='a')
 				cout << "The molar mass of " << formula << " is: " << c_molecule.findMass();
-			else if ((choice=='b')||(choice=='B'))
+			else if (choice=='b')
 				c_molecule.percentComp();
 			else {
-				cout << "Did you enter a valid choice?";
+				cout << "Did you enter a valid choice?\nPress enter.";
+				cin.get();
 				continue;
 			}
 
@@ -72,6 +76,7 @@ int main() {
 
 		cout << "Again? (y/n)" << endl;
 		cin >> again;
+		tolower(again,loc);
 	}
 	
 	return 0;
