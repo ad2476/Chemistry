@@ -17,7 +17,7 @@ void Compound::parseString() {
 	unordered_map<string,int>::const_iterator search;
 	string temp;
 	
-	for (int i=0; i<=raw_molecule.size(); i++) {
+	for (int i=0; i<=raw_molecule.length(); i++) {
 		if ((isupper(raw_molecule[i]))&&(i==0))
 			temp=raw_molecule[i];
 		else if(isupper(raw_molecule[i])&&(i!=0)) {
@@ -35,6 +35,13 @@ void Compound::parseString() {
 			temp+=raw_molecule[i]; // E.g. N+=a which means temp=="Na"
 		else
 			continue; // It is a number/parentheses or something
+	}
+	
+	for (int i=0; i<=raw_molecule.length(); i++) {
+		if (isdigit(raw_molecule[i]) {
+			v_Quantities.push_back(toInt(raw_molecule[i])); // This will not work for polyatomic compounds... 
+															// Or for multiple digits, like 12...
+		}
 	}
 }
 void Compound::percentComp() {
@@ -68,7 +75,7 @@ int main() {
 		}
 		else {
 			system(CLEARSCREEN);
-			cout << "Enter the chemical formula of the compound" << endl;
+			cout << "Enter the chemical formula of the compound. Proper capitalisation is imperative." << endl;
 			cout << "> ";
 			cin >> formula;
 			
