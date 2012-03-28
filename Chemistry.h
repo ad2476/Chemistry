@@ -14,11 +14,14 @@
 #include <algorithm>
 #include <unordered_map>
 #include <locale>
+#include <cctype>
+#include <sstream>
 
 #define CLEARSCREEN "clear"
 
 using namespace std;
 
+char again;
 
 class Compound {
 	
@@ -31,12 +34,21 @@ class Compound {
 	
 public:
 	Molecule(string s_molecule);
-	void parseString();
+	bool parseString();
 	float findMass();
 	void percentComp();
 	float percentYield();
-}}
+};
 
+int toInt(const char* str) {
+	int i_str;
+	stringstream convert(str);
+	
+	if (!(convert >> i_str))
+		i_str=0;
+	
+	return i_str;
+}
 
 // --- Database of element info: --- //
 
