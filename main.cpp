@@ -9,41 +9,51 @@
 
 Compound::Compound(string s_molecule) {
 	raw_molecule=s_molecule;
-	parseString();
+	if(!parseString())
+		again='n';
 	
 	f_mass=findMass();
 }
-void Compound::parseString() {
+bool Compound::parseString() {
 	unordered_map<string,int>::const_iterator search;
-	string temp;
+	string s_temp;
+	int i_temp;
 	
-	for (int i=0; i<=raw_molecule.length(); i++) {
+	for (int i=0; i<raw_molecule.length(); i++) {
 		if ((isupper(raw_molecule[i]))&&(i==0))
-			temp=raw_molecule[i];
+			s_temp=raw_molecule[i];
 		else if(isupper(raw_molecule[i])&&(i!=0)) {
-			// New element- so, convert temp to atomic # then store in v_Elements
-			search=ATOMIC_NUMBER.find (temp);
+			// New element- so, convert s_temp to atomic # then store in v_Elements
+			search=ATOMIC_NUMBER.find (s_temp);
 			if (search==ATOMIC_NUMBER.end()) 
 				// There is a problem
 			else
 				v_Elements.push_back(search->second); // Add atomic number into vector
 			
-			temp=raw_molecule[i]; // Replace temp with the new element
+			s_temp=raw_molecule[i]; // Replace temp with the new element
 
 		}
 		else if(islower(raw_molecule[i]))
-			temp+=raw_molecule[i]; // E.g. N+=a which means temp=="Na"
+			s_temp+=raw_molecule[i]; // E.g. N+=a which means temp=="Na"
 		else
 			continue; // It is a number/parentheses or something
 	}
 	
-	for (int i=0; i<=raw_molecule.length(); i++) {
-		if (isdigit(raw_molecule[i]) {
-			v_Quantities.push_back(toInt(raw_molecule[i])); // This will not work for polyatomic compounds... 
-															// Or for multiple digits, like 12...
+	for (int i=0; i<raw_molecule.length(); i++) {
+		if (isdigit(raw_molecule[i])) {
+			if (toInt(raw_molecule[i])==0)
+				return false;
+			
+			// This will not work for polyatomic compounds or multiple-digits
+			v_Quantities.push_back(toInt(raw_molecule[i])));
+		}
+		// If there is no number, there is only 1 atom. Between O and N for example: O is upper, N is upper, O has 1.
+		else if(isupper(raw_molecule[i])&&isupper(raw_molecule[i+1])&&(i+1<raw_molecule.length) { 
+			v_Quantities.push_back(1);
+	
 		}
 	}
-}
+				 
 void Compound::percentComp() {
 }
 float Compound::findMass() {
@@ -52,7 +62,7 @@ float percentYield() {
 }
 int main() {
 	char choice;
-	char again='y';
+	again='y';
 	string formula;
 	locale loc;
 	
