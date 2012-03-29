@@ -21,7 +21,7 @@ bool Compound::parseString() {
 	string s_temp;
 	int i_temp;
 	
-	for (int i=0; i<raw_molecule.length(); i++) {
+	for (int i=0; i<=raw_molecule.length(); i++) {
 		if ((isupper(raw_molecule[i]))&&(i==0))
 			s_temp=raw_molecule[i];
 		else if(isupper(raw_molecule[i])&&(i!=0)) {
@@ -40,7 +40,14 @@ bool Compound::parseString() {
 		else
 			continue; // It is a number/parentheses or something
 	}
+	// Whatever's in temp must be converted to atomic number and stored in vector
+	search=ATOMIC_NUMBER.find (s_temp);
+	if (search==ATOMIC_NUMBER.end()) 
+		return false;// There is a problem
+	else
+		v_Elements.push_back(search->second); // Add atomic number into vector
 	
+	// --- Find quantities next --- // 
 	for (int i=0; i<raw_molecule.length(); i++) {
 		if (isdigit(raw_molecule[i])) {
 			if (toInt(raw_molecule[i])==0)
@@ -53,6 +60,8 @@ bool Compound::parseString() {
 		else if(isupper(raw_molecule[i]) && (isupper(raw_molecule[i+1])) && ((i+1)<raw_molecule.length()))
 			v_Quantities.push_back(1);
 	}
+	
+	// -- TEMPORARY: Display contents of each vector. For debugging only. --- //
 				
 	return true;
 }
