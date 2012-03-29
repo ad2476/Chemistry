@@ -8,6 +8,8 @@
 #include "Chemistry.h"
 
 Compound::Compound(string s_molecule) {
+	setValues();
+	
 	raw_molecule=s_molecule;
 	if(!parseString())
 		again='n';
@@ -65,7 +67,6 @@ int main() {
 	char choice;
 	again='y';
 	string formula;
-	locale loc;
 	
 	while(again!='n')
 	{
@@ -74,16 +75,19 @@ int main() {
 		cout << "---------------------" << endl;
 		cout << "A) Calculate molar mass\n";
 		cout << "B) Calculate percent composition\n";
-		cout << "C) Calculate percent yield" << endl;
+		cout << "C) Calculate percent yield\n";
+		cout << "D) Exit" << endl;
 	
 		cout << "> ";
 		cin >> choice;
 		
-		tolower(choice, loc);
+		choice=toupper(choice);
 	
-		if (choice=='c') {
+		if (choice=='C') {
 			// Bring up different screen
 		}
+		else if (choice=='D')
+			break;
 		else {
 			system(CLEARSCREEN);
 			cout << "Enter the chemical formula of the compound. Proper capitalisation is imperative." << endl;
@@ -92,12 +96,14 @@ int main() {
 			
 			Compound c_molecule (formula);
 			
-			if (choice=='a')
-				cout << "The molar mass of " << formula << " is: " << c_molecule.findMass();
-			else if (choice=='b')
+			if (choice=='A')
+				cout << "The molar mass of " << formula << " is: " << c_molecule.findMass() << endl;
+			else if (choice=='B')
 				c_molecule.percentComp();
 			else {
 				cout << "Did you enter a valid choice?\nPress enter.";
+				cout << choice;
+				cin.get();
 				cin.get();
 				continue;
 			}
@@ -105,10 +111,11 @@ int main() {
 		}
 
 
-		cout << "Again? (y/n)" << endl;
+		cout << "\nAgain? (y/n)" << endl;
 		cin >> again;
-		tolower(again,loc);
+		again=tolower(again);
 	}
 	
+	system(CLEARSCREEN);
 	return 0;
 }
