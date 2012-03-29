@@ -12,7 +12,6 @@
 #include <string>
 #include <algorithm>
 #include <map>
-#include <locale>
 #include <cctype>
 #include <sstream>
 
