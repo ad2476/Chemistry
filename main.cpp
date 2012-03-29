@@ -15,7 +15,7 @@ Compound::Compound(string s_molecule) {
 	f_mass=findMass();
 }
 bool Compound::parseString() {
-	unordered_map<string,int>::const_iterator search;
+	map<string,int>::const_iterator search;
 	string s_temp;
 	int i_temp;
 	
@@ -26,7 +26,7 @@ bool Compound::parseString() {
 			// New element- so, convert s_temp to atomic # then store in v_Elements
 			search=ATOMIC_NUMBER.find (s_temp);
 			if (search==ATOMIC_NUMBER.end()) 
-				// There is a problem
+				return false;// There is a problem
 			else
 				v_Elements.push_back(search->second); // Add atomic number into vector
 			
@@ -45,14 +45,15 @@ bool Compound::parseString() {
 				return false;
 			
 			// This will not work for polyatomic compounds or multiple-digits
-			v_Quantities.push_back(toInt(raw_molecule[i])));
+			v_Quantities.push_back(toInt(raw_molecule[i]));
 		}
 		// If there is no number, there is only 1 atom. Between O and N for example: O is upper, N is upper, O has 1.
-		else if(isupper(raw_molecule[i])&&isupper(raw_molecule[i+1])&&(i+1<raw_molecule.length) { 
+		else if(isupper(raw_molecule[i]) && (isupper(raw_molecule[i+1])) && ((i+1)<raw_molecule.length()))
 			v_Quantities.push_back(1);
-	
-		}
 	}
+				
+	return true;
+}
 				 
 void Compound::percentComp() {
 }
