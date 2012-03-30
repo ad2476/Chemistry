@@ -69,19 +69,7 @@ bool Compound::parseString() {
 
 
 	}
-	
-	/* -- TEMPORARY: Display contents of each vector. For debugging only. --- //
-	
-	for (int i=0; i<v_Elements.size(); i++) {
-		cout << v_Elements[i] << endl;
-	}
-	
-	cout << "--------" << endl;
-	
-	for (int i=0; i<v_Quantities.size(); i++) {
-		cout << v_Quantities[i] << endl;
-	} */
-				
+			
 	return true;
 }
 				 
