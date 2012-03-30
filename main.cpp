@@ -8,17 +8,13 @@
 #include "Chemistry.h"
 
 Compound::Compound(string s_molecule) {
-	cout << "Constructor called" << endl;
 	setValues();
-	cout << "Values set!" << endl;
-	cout << "Meep!" << endl;
 	
 	raw_molecule=s_molecule;
-	cout << "string copied to raw_molecule!" << endl;
 	if(!parseString())
 		again='n';
 	
-	// f_mass=findMass();
+	f_mass=findMass();
 }
 bool Compound::parseString() {
 	map<string,int>::const_iterator search;
@@ -74,7 +70,7 @@ bool Compound::parseString() {
 
 	}
 	
-	// -- TEMPORARY: Display contents of each vector. For debugging only. --- //
+	/* -- TEMPORARY: Display contents of each vector. For debugging only. --- //
 	
 	for (int i=0; i<v_Elements.size(); i++) {
 		cout << v_Elements[i] << endl;
@@ -84,7 +80,7 @@ bool Compound::parseString() {
 	
 	for (int i=0; i<v_Quantities.size(); i++) {
 		cout << v_Quantities[i] << endl;
-	}
+	} */
 				
 	return true;
 }
@@ -94,18 +90,11 @@ void Compound::percentComp() {
 float Compound::findMass() {
 	float mass=0;
 	int hash_lookup;
-	cout << "Meep" << endl;
 	
 	for (int i=0; i<v_Elements.size(); i++) {
-		cout << "Meep" << endl;
 		hash_lookup=v_Elements[i];
-		mass+=ATOMIC_MASS[hash_lookup];
+		mass+=ATOMIC_MASS[hash_lookup]*v_Quantities[i];
 	}
-	
-	cout << "-----" << endl;
-	
-	cout << v_Elements[0] << endl;
-	cout << mass << endl;
 	
 	return mass;
 }
@@ -143,8 +132,6 @@ int main() {
 			cin >> formula;
 			
 			Compound c_molecule (formula);
-			
-			cout << "Object constructed!" << endl;
 			
 			if (choice=='A')
 				cout << "The molar mass of " << formula << " is: " << c_molecule.findMass() << endl;
