@@ -74,6 +74,18 @@ bool Compound::parseString() {
 }
 				 
 void Compound::percentComp() {
+	int hash_lookup;
+	map<string, int>::const_iterator search;
+	vector<string> v_Output;
+	
+	for (int i=0; i<v_Elements.size(); i++) {
+		hash_lookup=v_Elements[i];
+		for (search=ATOMIC_NUMBER.begin(); search!=ATOMIC_NUMBER.end(); search++) {
+			if (search->second==v_Elements[i])
+				v_Output.push_back(search->first);
+		}
+		cout << v_Output[i] << ": " << ((ATOMIC_MASS[hash_lookup]*v_Quantities[i])/f_mass)*100 << "%" << endl;
+	}
 }
 float Compound::findMass() {
 	float mass=0;
