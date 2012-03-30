@@ -1,0 +1,18 @@
+Chemistry will be able to perform operations with chemical formulas, and calculate yields using stoichiometry. 
+
+INSTALL: As of now, there is no formal 'install' feature. If you wish to run the software, you will need to compile the sources. Please note that the program is unfinished and may have bugs that could potentially cause issues with your computer. 
+
+COMPILING: 
+
+	On Mac OS X: g++ -o Chemistry main.cpp
+	Linux: g++ -o Chemistry main.cpp
+	Windows: g++ -o Chemistry main.cpp or use your IDE's compiler.
+
+	Important: In Chemistry.h, be sure to define CLEARSCREEN as "cls" when 	compiling on Windows systems.
+
+USE: As of now, there is one feature that works properly: Finding atomic mass. The rest will be available shortly. On mac and linux, run the software with "./Chemistry" in terminal, providing you set the executable output name to be "Chemistry".
+
+ISSUES:  
+	1.	Only option A) is available (find atomic mass)
+	2.	The program will only be able to process simple compounds (i.e. no polyatomic ions) and element quantities less than or equal to 9.
+	3.	May not compile.
