@@ -29,7 +29,7 @@ class Compound {
 	float f_mass; // Mass of compound
 	vector<float> v_Composition; // container of each element's percent comp
 	string raw_molecule;
-	float ATOMIC_MASS[];
+	float ATOMIC_MASS[83];
 	
 public:
 	Compound(string s_molecule);
