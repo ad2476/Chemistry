@@ -4,9 +4,7 @@ INSTALL: As of now, there is no formal 'install' feature. If you wish to run the
 
 COMPILING: 
 
-	On Mac OS X: g++ -o Chemistry main.cpp
-	Linux: g++ -o Chemistry main.cpp
-	Windows: g++ -o Chemistry main.cpp or use your IDE's compiler.
+	make
 
 	Important: In Chemistry.h, be sure to define CLEARSCREEN as "cls" when 	compiling on Windows systems.
 
