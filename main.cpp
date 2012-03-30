@@ -8,13 +8,17 @@
 #include "Chemistry.h"
 
 Compound::Compound(string s_molecule) {
+	cout << "Constructor called" << endl;
 	setValues();
+	cout << "Values set!" << endl;
+	cout << "Meep!" << endl;
 	
 	raw_molecule=s_molecule;
+	cout << "string copied to raw_molecule!" << endl;
 	if(!parseString())
 		again='n';
 	
-	f_mass=findMass();
+	// f_mass=findMass();
 }
 bool Compound::parseString() {
 	map<string,int>::const_iterator search;
@@ -88,6 +92,22 @@ bool Compound::parseString() {
 void Compound::percentComp() {
 }
 float Compound::findMass() {
+	float mass=0;
+	int hash_lookup;
+	cout << "Meep" << endl;
+	
+	for (int i=0; i<v_Elements.size(); i++) {
+		cout << "Meep" << endl;
+		hash_lookup=v_Elements[i];
+		mass+=ATOMIC_MASS[hash_lookup];
+	}
+	
+	cout << "-----" << endl;
+	
+	cout << v_Elements[0] << endl;
+	cout << mass << endl;
+	
+	return mass;
 }
 float percentYield() {
 }
@@ -123,6 +143,8 @@ int main() {
 			cin >> formula;
 			
 			Compound c_molecule (formula);
+			
+			cout << "Object constructed!" << endl;
 			
 			if (choice=='A')
 				cout << "The molar mass of " << formula << " is: " << c_molecule.findMass() << endl;
