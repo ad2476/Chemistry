@@ -48,7 +48,7 @@ bool Compound::parseString() {
 		v_Elements.push_back(search->second); // Add atomic number into vector
 	
 	// --- Find quantities next --- // 
-	for (int i=0; i<raw_molecule.length(); i++) {
+	for (int i=0; i<=raw_molecule.length(); i++) {
 		if (isdigit(raw_molecule[i])) {
 			if (toInt(raw_molecule[i])==0)
 				return false;
@@ -56,15 +56,30 @@ bool Compound::parseString() {
 			// This will not work for polyatomic compounds or multiple-digits
 			v_Quantities.push_back(toInt(raw_molecule[i]));
 		}
+		else if(i<(raw_molecule.length()-1)) {
+			if (isupper(raw_molecule[i+1])) {
+				v_Quantities.push_back(1);
+			}
+		}
 		// If there is no number, there is only 1 atom. Between O and N for example: O is upper, N is upper, O has 1.
-		else if(isupper(raw_molecule[i]) && (isupper(raw_molecule[i+1])) && ((i+1)<raw_molecule.length()))
-			v_Quantities.push_back(1);
+		else if(i==(raw_molecule.length()-1)) {
+			if (isalpha(raw_molecule[i]))
+				v_Quantities.push_back(1);
+		}
+
+
 	}
 	
 	// -- TEMPORARY: Display contents of each vector. For debugging only. --- //
 	
 	for (int i=0; i<v_Elements.size(); i++) {
 		cout << v_Elements[i] << endl;
+	}
+	
+	cout << "--------" << endl;
+	
+	for (int i=0; i<v_Quantities.size(); i++) {
+		cout << v_Quantities[i] << endl;
 	}
 				
 	return true;
