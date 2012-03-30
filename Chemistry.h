@@ -29,6 +29,7 @@ class Compound {
 	float f_mass; // Mass of compound
 	vector<float> v_Composition; // container of each element's percent comp
 	string raw_molecule;
+	float ATOMIC_MASS[];
 	
 public:
 	Compound(string s_molecule);
@@ -98,12 +99,57 @@ void Compound::setValues() {
 	ATOMIC_NUMBER["Hg"]=80;
 	ATOMIC_NUMBER["Pb"]=82;
 	
-	float ATOMIC_MASS[83]={0.0, 1.008, 0.0, 6.941, 9.012, 10.81, 12.01, 14.01, 16.00, 19.00, 0.0, 22.99, 24.31, 26.98, 
-		28.09, 30.97, 32.07, 35.45, 0.0, 39.10, 40.08, 44.96, 47.87, 0.0, 52.00, 54.94, 55.85, 58.93, 58.69, 63.55, 65.39, 
-		69.72, 72.61, 74.92, 78.96, 79.90, 0.0, 85.47, 87.62, 0.0, 91.22, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 107.9, 112.4, 114.8, 
-		118.7, 121.8, 0.0, 126.9, 131.3, 132.9, 137.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 
-		0.0, 0.0, 0.0, 0.0, 0.0, 190.2, 0.0, 195.1, 197.0, 200.6, 0, 207.2};
+	
+	ATOMIC_MASS[1]=1.008;
+	ATOMIC_MASS[3]=6.941;
+	ATOMIC_MASS[4]=9.012;
+	ATOMIC_MASS[5]=10.81;
+	ATOMIC_MASS[6]=12.01;
+	ATOMIC_MASS[7]=14.01;
+	ATOMIC_MASS[8]=16.00;
+	ATOMIC_MASS[9]=19.00;
+	ATOMIC_MASS[11]=22.99;
+	ATOMIC_MASS[12]=24.31;
+	ATOMIC_MASS[13]=26.98;
+	ATOMIC_MASS[14]=28.09;
+	ATOMIC_MASS[15]=30.97;
+	ATOMIC_MASS[16]=32.07;
+	ATOMIC_MASS[17]=35.45;
+	ATOMIC_MASS[19]=39.10;
+	ATOMIC_MASS[20]=40.08;
+	ATOMIC_MASS[21]=44.96;
+	ATOMIC_MASS[22]=47.87;
+	ATOMIC_MASS[24]=52.00;
+	ATOMIC_MASS[25]=54.94;
+	ATOMIC_MASS[26]=55.85;
+	ATOMIC_MASS[27]=58.93;
+	ATOMIC_MASS[28]=58.69;
+	ATOMIC_MASS[29]=63.55;
+	ATOMIC_MASS[30]=65.39;
+	ATOMIC_MASS[31]=69.72;
+	ATOMIC_MASS[32]=72.61;
+	ATOMIC_MASS[33]=74.92;
+	ATOMIC_MASS[34]=78.96;
+	ATOMIC_MASS[35]=79.90;
+	ATOMIC_MASS[37]=85.47;
+	ATOMIC_MASS[38]=87.62;
+	ATOMIC_MASS[40]=91.22;
+	ATOMIC_MASS[47]=107.9;
+	ATOMIC_MASS[48]=112.4;
+	ATOMIC_MASS[49]=114.8;
+	ATOMIC_MASS[50]=118.7;
+	ATOMIC_MASS[51]=121.8;
+	ATOMIC_MASS[53]=126.9;
+	ATOMIC_MASS[54]=131.3;
+	ATOMIC_MASS[55]=132.9;
+	ATOMIC_MASS[56]=137.3;
+	ATOMIC_MASS[76]=190.2;
+	ATOMIC_MASS[78]=195.1;
+	ATOMIC_MASS[79]=197.0;
+	ATOMIC_MASS[80]=200.6;
+	ATOMIC_MASS[82]=207.2;
 	// 0.0 means an unused (for the purposes of the program) element. Have the program check mass!0.0 before proceeding
 	// to ensure no errors were made.
+
 }
 
