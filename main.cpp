@@ -52,9 +52,20 @@ bool Compound::parseString() {
 		if (isdigit(raw_molecule[i])) {
 			if (toInt(raw_molecule[i])==0)
 				return false;
-			
-			// This will not work for polyatomic compounds or multiple-digits
-			v_Quantities.push_back(toInt(raw_molecule[i]));
+			else if (isdigit(raw_molecule[i+1])) {
+				if (isdigit(raw_molecule[i+2])) {
+					i_temp=(toInt(raw_molecule[i])*100)+(toInt(raw_molecule[i+1])*10)+toInt(raw_molecule[i+2]);
+					v_Quantities.push_back(i_temp);
+				}
+				else {
+					i_temp=(toInt(raw_molecule[i])*10)+toInt(raw_molecule[i+1]);
+					v_Quantities.push_back(i_temp);
+				}
+					
+			}
+			else if(!isdigit(raw_molecule[i-1])) {
+				v_Quantities.push_back(toInt(raw_molecule[i])); // This will not work for polyatomic ions
+			}
 		}
 		else if(i<(raw_molecule.length()-1)) {
 			if (isupper(raw_molecule[i+1])) {
@@ -66,8 +77,14 @@ bool Compound::parseString() {
 			if (isalpha(raw_molecule[i]))
 				v_Quantities.push_back(1);
 		}
-
-
+	}
+	
+	for (int i=0; i<v_Elements.size(); i++) {
+		cout << i << ": " << v_Elements[i] << endl;
+	}
+	cout << "-----------------" << endl;
+	for (int i=0; i<v_Quantities.size(); i++) {
+		cout << i << ": " << v_Quantities[i] << endl;
 	}
 			
 	return true;
@@ -76,12 +93,14 @@ bool Compound::parseString() {
 void Compound::percentComp() {
 	int hash_lookup;
 	map<string, int>::const_iterator search;
-	vector<string> v_Output;
+	vector<string> v_Output; 
 	
 	for (int i=0; i<v_Elements.size(); i++) {
-		hash_lookup=v_Elements[i];
+		hash_lookup=v_Elements[i]; // Lookup the atomic # in the compound
+		
+		// Reverse-key lookup the element abbreviation
 		for (search=ATOMIC_NUMBER.begin(); search!=ATOMIC_NUMBER.end(); search++) {
-			if (search->second==v_Elements[i])
+			if (search->second==v_Elements[i]) // If the # is part of the compound
 				v_Output.push_back(search->first);
 		}
 		cout << v_Output[i] << ": " << ((ATOMIC_MASS[hash_lookup]*v_Quantities[i])/f_mass)*100 << "%" << endl;
