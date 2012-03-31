@@ -12,5 +12,5 @@ USE: As of now, there is one feature that works properly: Finding atomic mass. T
 
 ISSUES:  
 	1.	Only option A) is available (find atomic mass)
-	2.	The program will only be able to process simple compounds (i.e. no polyatomic ions) and element quantities less than or equal to 9.
+	2.	The program will only be able to process simple compounds (i.e. no polyatomic ions) and element quantities less than or equal to 999.
 	3.	May not compile.
