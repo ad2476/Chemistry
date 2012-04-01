@@ -8,7 +8,7 @@ COMPILING:
 
 	Important: In Chemistry.h, be sure to define CLEARSCREEN as "cls" when 	compiling on Windows systems.
 
-USE: As of now, there is one feature that works properly: Finding atomic mass. The rest will be available shortly. On mac and linux, run the software with "./Chemistry" in terminal, providing you set the executable output name to be "Chemistry".
+USE: As of now, percent yield and limiting reactant are not available. On Mac OS X, double-click the program in Finder. On Linux, run "./Chemistry". On Windows, double-click the program in Windows Explorer.
 
 ISSUES:  
 	1. May not work properly on Windows.
