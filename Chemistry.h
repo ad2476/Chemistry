@@ -34,18 +34,19 @@ class Compound {
 public:
 	Compound(string s_molecule);
 	void setValues();
-	bool parseString();
+	bool parseString(string s_compound);
 	float findMass();
 	void percentComp();
 	float percentYield();
 };
 
 int toInt(char str) {
-	int i_str;
+	int i_str=0;
 	i_str=atoi(&str);
 	
 	return i_str;
 }
+
 
 void Compound::setValues() {
 	// --- Database of element info: --- //
