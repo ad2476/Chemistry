@@ -208,6 +208,7 @@ int main() {
 	char choice;
 	again='y';
 	string formula;
+	float grams;
 	
 	while(again!='n')
 	{
@@ -216,7 +217,7 @@ int main() {
 		cout << "---------------------" << endl;
 		cout << "A) Calculate molar mass\n";
 		cout << "B) Calculate percent composition\n";
-		cout << "C) Calculate percent yield\n";
+		cout << "C) Convert grams to moles\n";
 		cout << "D) Exit" << endl;
 	
 		cout << "> ";
@@ -224,10 +225,7 @@ int main() {
 		
 		choice=toupper(choice);
 	
-		if (choice=='C') {
-			// Bring up different screen
-		}
-		else if (choice=='D')
+		if (choice=='D')
 			break;
 		else {
 			system(CLEARSCREEN);
@@ -241,6 +239,11 @@ int main() {
 				cout << "The molar mass of " << formula << " is: " << c_molecule.findMass() << endl;
 			else if (choice=='B')
 				c_molecule.percentComp();
+			else if (choice=='C') {
+				cout << "How many grams of " << formula << " do you have? ";
+				cin >> grams;
+				cout << "In " << grams << "g of " << formula << ", there are " << grams/c_molecule.findMass() << " moles" << endl;
+			}
 			else {
 				cout << "Did you enter a valid choice?\nPress enter.";
 				cout << choice;
