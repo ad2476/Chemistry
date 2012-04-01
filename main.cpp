@@ -8,11 +8,56 @@
 #include "Chemistry.h"
 
 Compound::Compound(string s_molecule) {
+	vector<string> v_SubMols;
+	string s_temp;
 	setValues();
 	
 	raw_molecule=s_molecule;
-	if(!parseString())
+	
+	for (int i=0; i<=raw_molecule.length(); i++) {
+		if (raw_molecule[i]=='(') {
+			v_SubMols.push_back(s_temp);
+			s_temp.clear();
+			for (int j=i; raw_molecule[j-1]!=')'; j++) {
+				s_temp+=raw_molecule[j];
+				if (raw_molecule[j]==')') {
+					if (isdigit(raw_molecule[j+1])) {
+						s_temp+=raw_molecule[j+1];
+						if (isdigit(raw_molecule[j+2]))
+							s_temp+=raw_molecule[j+2];
+					}
+				}
+				i=j;
+			}
+			v_SubMols.push_back(s_temp);
+			s_temp.clear();
+		}
+		else if (isdigit(raw_molecule[i])) {
+			if(raw_molecule[i-1]==')')
+				continue;
+			else if(raw_molecule[i-2]==')') {
+				if (isdigit(raw_molecule[i-1]))
+					continue;
+			}
+			else
+				s_temp+=raw_molecule[i];
+			
+		}
+		else
+			s_temp+=raw_molecule[i];
+
+	}
+	v_SubMols.push_back(s_temp);
+	
+	for (int i=0; i<v_SubMols.size(); i++) {
+		cout << v_SubMols[i] << endl;
+	}
+	/*
+	if(!parseString()) {
+		cout << "\nThere was an error parsing your formula. Are you sure that ";
+		cout << raw_molecule << " is a valid compound?" << endl;
 		again='n';
+	} */
 	
 	f_mass=findMass();
 }
@@ -63,7 +108,7 @@ bool Compound::parseString() {
 				}
 					
 			}
-			else if(!isdigit(raw_molecule[i-1])) {
+			else if(!isdigit(raw_molecule[i-1])) { // Look back to make sure the digit is not part of a larger number
 				v_Quantities.push_back(toInt(raw_molecule[i])); // This will not work for polyatomic ions
 			}
 		}
@@ -79,13 +124,17 @@ bool Compound::parseString() {
 		}
 	}
 	
+	// --- For debugging only. Remove when complete. --- //
+	cout << "v_Elements contents:" << endl;
 	for (int i=0; i<v_Elements.size(); i++) {
 		cout << i << ": " << v_Elements[i] << endl;
 	}
-	cout << "-----------------" << endl;
+	cout << "v_Quantities contents:" << endl;
 	for (int i=0; i<v_Quantities.size(); i++) {
 		cout << i << ": " << v_Quantities[i] << endl;
 	}
+	
+	cout << "-----------------" << endl;
 			
 	return true;
 }
