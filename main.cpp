@@ -15,12 +15,12 @@ Compound::Compound(string s_molecule) {
 	raw_molecule=s_molecule;
 	
 	if((raw_molecule.find("(")!=string::npos)&&(raw_molecule.find(")")==string::npos)) {
-		cout << "You appear to be missing an end parenthesis" << endl;
+		cout << "You appear to be missing an end parenthesis.\n" << endl;
 		raw_molecule.clear();
 		again='n';
 	}
 	else if((raw_molecule.find("(")==string::npos)&&(raw_molecule.find(")")!=string::npos)) {
-		cout << "You appear to have forgotten a starting parenthesis" << endl;
+		cout << "You appear to have forgotten a starting parenthesis.\n" << endl;
 		raw_molecule.clear();
 		again='n';
 	}
@@ -65,10 +65,12 @@ Compound::Compound(string s_molecule) {
 		v_SubMols.push_back(raw_molecule);
 	
 	for (int i=0; i<v_SubMols.size(); i++) {
-		if(!parseString(v_SubMols[i])) {
-			cout << "\nThere was an error parsing your formula. Are you sure that ";
-			cout << v_SubMols[i] << " is a valid compound?" << endl;
-			again='n';
+		if(!v_SubMols[i].empty()) {
+			if(!parseString(v_SubMols[i])) {
+				cout << "\nThere was an error parsing your formula. Are you sure that ";
+				cout << v_SubMols[i] << " is a valid compound?" << endl;
+				again='n';
+			}
 		}
 	}
 	
