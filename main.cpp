@@ -14,62 +14,104 @@ Compound::Compound(string s_molecule) {
 	
 	raw_molecule=s_molecule;
 	
-	for (int i=0; i<=raw_molecule.length(); i++) {
-		if (raw_molecule[i]=='(') {
-			v_SubMols.push_back(s_temp);
-			s_temp.clear();
-			for (int j=i; raw_molecule[j-1]!=')'; j++) {
-				s_temp+=raw_molecule[j];
-				if (raw_molecule[j]==')') {
-					if (isdigit(raw_molecule[j+1])) {
-						s_temp+=raw_molecule[j+1];
-						if (isdigit(raw_molecule[j+2]))
-							s_temp+=raw_molecule[j+2];
+	if((raw_molecule.find("(")!=string::npos)&&(raw_molecule.find(")")==string::npos)) {
+		cout << "You appear to be missing an end parenthesis" << endl;
+		raw_molecule.clear();
+		again='n';
+	}
+	else if((raw_molecule.find("(")==string::npos)&&(raw_molecule.find(")")!=string::npos)) {
+		cout << "You appear to have forgotten a starting parenthesis" << endl;
+		raw_molecule.clear();
+		again='n';
+	}
+	else if((raw_molecule.find("(")!=string::npos)&&(raw_molecule.find(")")!=string::npos)) {
+		for (int i=0; i<raw_molecule.length(); i++) {
+			if (raw_molecule[i]=='(') {
+				v_SubMols.push_back(s_temp);
+				s_temp.clear();
+				for (int j=i; raw_molecule[j-1]!=')'; j++) {
+					s_temp+=raw_molecule[j];
+					if (raw_molecule[j]==')') {
+						if (isdigit(raw_molecule[j+1])) {
+							s_temp+=raw_molecule[j+1];
+							if (isdigit(raw_molecule[j+2]))
+								s_temp+=raw_molecule[j+2];
+						}
 					}
+					i=j;
 				}
-				i=j;
+				v_SubMols.push_back(s_temp);
+				s_temp.clear();
 			}
-			v_SubMols.push_back(s_temp);
-			s_temp.clear();
-		}
-		else if (isdigit(raw_molecule[i])) {
-			if(raw_molecule[i-1]==')')
-				continue;
-			else if(raw_molecule[i-2]==')') {
-				if (isdigit(raw_molecule[i-1]))
+			else if (isdigit(raw_molecule[i])) {
+				if(raw_molecule[i-1]==')')
 					continue;
+				else if(raw_molecule[i-2]==')') {
+					if (isdigit(raw_molecule[i-1]))
+						continue;
+				}
+				else
+					s_temp+=raw_molecule[i];
+			
 			}
 			else
 				s_temp+=raw_molecule[i];
-			
-		}
-		else
-			s_temp+=raw_molecule[i];
 
+		}
+		if (!s_temp.empty())
+			v_SubMols.push_back(s_temp);
 	}
-	v_SubMols.push_back(s_temp);
+	else
+		v_SubMols.push_back(raw_molecule);
 	
 	for (int i=0; i<v_SubMols.size(); i++) {
-		cout << v_SubMols[i] << endl;
+		if(!parseString(v_SubMols[i])) {
+			cout << "\nThere was an error parsing your formula. Are you sure that ";
+			cout << v_SubMols[i] << " is a valid compound?" << endl;
+			again='n';
+		}
 	}
-	/*
-	if(!parseString()) {
-		cout << "\nThere was an error parsing your formula. Are you sure that ";
-		cout << raw_molecule << " is a valid compound?" << endl;
-		again='n';
-	} */
 	
 	f_mass=findMass();
 }
-bool Compound::parseString() {
+bool Compound::parseString(string s_compound) {
 	map<string,int>::const_iterator search;
+	vector<int> v_Temp; // To hold the temporary quantities
 	string s_temp;
 	int i_temp;
 	
-	for (int i=0; i<=raw_molecule.length(); i++) {
-		if ((isupper(raw_molecule[i]))&&(i==0))
-			s_temp=raw_molecule[i];
-		else if(isupper(raw_molecule[i])&&(i!=0)) {
+	// Check if the passed arg refers to a polyatomic ion
+	int scalar=1;
+	if (s_compound[0]=='(') {
+		// Search for quantity at the end of the string
+		size_t find_paren=s_compound.find(")");
+		
+		find_paren+=1;
+		for (int i=int(find_paren); i<s_compound.length(); i++) {
+			if (toInt(s_compound[i])==0)
+				return false;
+			else if (isdigit(s_compound[i+1])) {
+				if (isdigit(s_compound[i+2])) {
+					i_temp=(toInt(s_compound[i])*100)+(toInt(s_compound[i+1])*10)+toInt(s_compound[i+2]);
+					scalar=i_temp;
+				}
+				else {
+					i_temp=(toInt(s_compound[i])*10)+toInt(s_compound[i+1]);
+					scalar=i_temp;
+				}
+					
+			}
+			else
+				scalar=toInt(s_compound[i]);
+		}
+		s_compound.erase(s_compound.begin());
+		s_compound.erase(find_paren-1, s_compound.length());
+	}
+	
+	for (int i=0; i<=s_compound.length(); i++) {
+		if ((isupper(s_compound[i]))&&(i==0))
+			s_temp=s_compound[i];
+		else if(isupper(s_compound[i])&&(i!=0)) {
 			// New element- so, convert s_temp to atomic # then store in v_Elements
 			search=ATOMIC_NUMBER.find (s_temp);
 			if (search==ATOMIC_NUMBER.end()) 
@@ -77,11 +119,11 @@ bool Compound::parseString() {
 			else
 				v_Elements.push_back(search->second); // Add atomic number into vector
 			
-			s_temp=raw_molecule[i]; // Replace temp with the new element
+			s_temp=s_compound[i]; // Replace temp with the new element
 
 		}
-		else if(islower(raw_molecule[i]))
-			s_temp+=raw_molecule[i]; // E.g. N+=a which means temp=="Na"
+		else if(islower(s_compound[i]))
+			s_temp+=s_compound[i]; // E.g. N+=a which means temp=="Na"
 		else
 			continue; // It is a number/parentheses or something
 	}
@@ -93,48 +135,42 @@ bool Compound::parseString() {
 		v_Elements.push_back(search->second); // Add atomic number into vector
 	
 	// --- Find quantities next --- // 
-	for (int i=0; i<=raw_molecule.length(); i++) {
-		if (isdigit(raw_molecule[i])) {
-			if (toInt(raw_molecule[i])==0)
+	for (int i=0; i<=s_compound.length(); i++) {
+		if (isdigit(s_compound[i])) {
+			if (toInt(s_compound[i])==0)
 				return false;
-			else if (isdigit(raw_molecule[i+1])) {
-				if (isdigit(raw_molecule[i+2])) {
-					i_temp=(toInt(raw_molecule[i])*100)+(toInt(raw_molecule[i+1])*10)+toInt(raw_molecule[i+2]);
-					v_Quantities.push_back(i_temp);
+			else if (isdigit(s_compound[i+1])) {
+				if (isdigit(s_compound[i+2])) {
+					i_temp=(toInt(s_compound[i])*100)+(toInt(s_compound[i+1])*10)+toInt(s_compound[i+2]);
+					v_Temp.push_back(i_temp);
 				}
 				else {
-					i_temp=(toInt(raw_molecule[i])*10)+toInt(raw_molecule[i+1]);
-					v_Quantities.push_back(i_temp);
+					i_temp=(toInt(s_compound[i])*10)+toInt(s_compound[i+1]);
+					v_Temp.push_back(i_temp);
 				}
 					
 			}
-			else if(!isdigit(raw_molecule[i-1])) { // Look back to make sure the digit is not part of a larger number
-				v_Quantities.push_back(toInt(raw_molecule[i])); // This will not work for polyatomic ions
+			else if(!isdigit(s_compound[i-1])) { // Look back to make sure the digit is not part of a larger number
+				v_Temp.push_back(toInt(s_compound[i])); // This will not work for polyatomic ions
 			}
 		}
-		else if(i<(raw_molecule.length()-1)) {
-			if (isupper(raw_molecule[i+1])) {
-				v_Quantities.push_back(1);
+		else if(i<(s_compound.length()-1)) {
+			if (isupper(s_compound[i+1])) {
+				v_Temp.push_back(1);
 			}
 		}
 		// If there is no number, there is only 1 atom. Between O and N for example: O is upper, N is upper, O has 1.
-		else if(i==(raw_molecule.length()-1)) {
-			if (isalpha(raw_molecule[i]))
-				v_Quantities.push_back(1);
+		else if(i==(s_compound.length()-1)) {
+			if (isalpha(s_compound[i]))
+				v_Temp.push_back(1);
 		}
 	}
 	
-	// --- For debugging only. Remove when complete. --- //
-	cout << "v_Elements contents:" << endl;
-	for (int i=0; i<v_Elements.size(); i++) {
-		cout << i << ": " << v_Elements[i] << endl;
+	// Multiply each element of the vector by the scalar
+	for (int i=0; i<v_Temp.size(); i++) {
+		v_Temp[i]*=scalar;
+		v_Quantities.push_back(v_Temp[i]);
 	}
-	cout << "v_Quantities contents:" << endl;
-	for (int i=0; i<v_Quantities.size(); i++) {
-		cout << i << ": " << v_Quantities[i] << endl;
-	}
-	
-	cout << "-----------------" << endl;
 			
 	return true;
 }
