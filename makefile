@@ -1,2 +1,9 @@
-Chemistry: main.cpp Chemistry.h
-	g++ -o Chemistry main.cpp
+Chemistry: main.o
+	g++ -g -o Chemistry main.o
+
+main.o:
+	g++ -g -c -o main.o main.cpp
+
+
+clean:
+	rm *.o
