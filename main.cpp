@@ -52,11 +52,11 @@ Compound::Compound(string s_molecule) {
 				}
 				else
 					s_temp+=raw_molecule[i];
-			
+				
 			}
 			else
 				s_temp+=raw_molecule[i];
-
+			
 		}
 		if (!s_temp.empty())
 			v_SubMols.push_back(s_temp);
@@ -101,7 +101,7 @@ bool Compound::parseString(string s_compound) {
 					i_temp=(toInt(s_compound[i])*10)+toInt(s_compound[i+1]);
 					scalar=i_temp;
 				}
-					
+				
 			}
 			else
 				scalar=toInt(s_compound[i]);
@@ -122,7 +122,7 @@ bool Compound::parseString(string s_compound) {
 				v_Elements.push_back(search->second); // Add atomic number into vector
 			
 			s_temp=s_compound[i]; // Replace temp with the new element
-
+			
 		}
 		else if(islower(s_compound[i]))
 			s_temp+=s_compound[i]; // E.g. N+=a which means temp=="Na"
@@ -150,7 +150,7 @@ bool Compound::parseString(string s_compound) {
 					i_temp=(toInt(s_compound[i])*10)+toInt(s_compound[i+1]);
 					v_Temp.push_back(i_temp);
 				}
-					
+				
 			}
 			else if(!isdigit(s_compound[i-1])) { // Look back to make sure the digit is not part of a larger number
 				v_Temp.push_back(toInt(s_compound[i])); // This will not work for polyatomic ions
@@ -173,10 +173,10 @@ bool Compound::parseString(string s_compound) {
 		v_Temp[i]*=scalar;
 		v_Quantities.push_back(v_Temp[i]);
 	}
-			
+	
 	return true;
 }
-				 
+
 void Compound::percentComp() {
 	int hash_lookup;
 	map<string, int>::const_iterator search;
@@ -206,60 +206,73 @@ float Compound::findMass() {
 }
 float percentYield() {
 }
+void help() {
+	system(CLEARSCREEN);
+	cout << "Available commands:\n" << endl;
+	cout << "mass <compound>\t\t\tFind the molar mass of <compound>" << endl;
+	cout << "weight <compound>\t\tSame as mass" << endl;
+	cout << "pcomp <compound>\t\tFind the percent composition of each element in <compound>" << endl;
+	cout << "tomole <grams> <compound>\tFind the number of moles in <grams> of <compound>" << endl;
+	cout << "\nMore features coming soon!" << endl;
+	cout << "\n[Press enter]" << endl;
+}
 int main() {
-	char choice;
+	string choice;
 	again='y';
 	string formula;
 	float grams;
+	int pos;
+	string temp;
 	
 	while(again!='n')
 	{
 		system(CLEARSCREEN);
-		cout << "Welcome to Chemistry!" << endl;
-		cout << "---------------------" << endl;
-		cout << "A) Calculate molar mass\n";
-		cout << "B) Calculate percent composition\n";
-		cout << "C) Convert grams to moles\n";
-		cout << "D) Exit" << endl;
-	
-		cout << "> ";
-		cin >> choice;
+
+		cout << "For information on commands: \"help\". To quit: \"quit\"\n" << endl;
+		cout << ">> ";
+		getline(cin, choice);
 		
-		choice=toupper(choice);
 	
-		if (choice=='D')
+		if (choice=="quit")
 			break;
-		else {
+		else if(choice=="help"){
+			help();
+			cin.get(); continue;
+		}
+		else if (choice.find("pyield")==string::npos) {
 			system(CLEARSCREEN);
-			cout << "Enter the chemical formula of the compound. Proper capitalisation is imperative." << endl;
-			cout << "> ";
-			cin >> formula;
+			formula=choice.substr(choice.find_last_of(" ")+1);
 			
 			Compound c_molecule (formula);
 			
-			if (choice=='A')
+			if ((choice.find("mass")!=string::npos)||(choice.find("weight")!=string::npos))
 				cout << "The molar mass of " << formula << " is: " << c_molecule.findMass() << endl;
-			else if (choice=='B')
+			else if (choice.find("pcomp")!=string::npos)
 				c_molecule.percentComp();
-			else if (choice=='C') {
-				cout << "How many grams of " << formula << " do you have? ";
-				cin >> grams;
-				cout << "In " << grams << "g of " << formula << ", there are " << grams/c_molecule.findMass() << " moles" << endl;
+			else if (choice.find("tomole")!=string::npos) {
+				for (int i=0; i<choice.length(); i++) {
+					if(isdigit(choice[i]))
+						temp+=choice[i];
+				}
+				grams=atoi(temp.c_str());
+				
+				system(CLEARSCREEN);
+				cout << "In " << grams << "g of " << formula << ", there are ";
+				cout << grams/c_molecule.findMass() << " moles" << endl;
 			}
 			else {
-				cout << "Did you enter a valid choice?\nPress enter.";
-				cout << choice;
-				cin.get();
-				cin.get();
-				continue;
+				help();
+				cin.get(); continue;
 			}
 
 		}
+		else {
+			help();
+			cin.get(); continue;
+		}
 
-
-		cout << "\nAgain? (y/n)" << endl;
-		cin >> again;
-		again=tolower(again);
+		cout << "\n\nPress enter to continue. " << endl;
+		cin.get();
 	}
 	
 	system(CLEARSCREEN);
