@@ -1,4 +1,4 @@
-Chemistry: main.o
+Chemistry: clean main.o
 	g++ -g -o Chemistry main.o
 
 main.o:
