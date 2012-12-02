@@ -5,12 +5,14 @@
 /* It may not be sold for money without the consent of the author                              */
 /* Please give credit where it is due- Even though it's free please do not remove this notice  */
 
+#ifndef CHEMISTRY_H_
+	#define CHEMISTRY_H_
+
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
 #include <vector>
 #include <string>
-#include <algorithm>
 #include <map>
 #include <cctype>
 #include <sstream>
@@ -46,7 +48,6 @@ int toInt(char str) {
 	
 	return i_str;
 }
-
 
 void Compound::setValues() {
 	// --- Database of element info: --- //
@@ -151,6 +152,7 @@ void Compound::setValues() {
 	ATOMIC_MASS[82]=207.2;
 	// 0.0 means an unused (for the purposes of the program) element. Have the program check mass!0.0 before proceeding
 	// to ensure no errors were made.
-
+	
 }
 
+#endif
